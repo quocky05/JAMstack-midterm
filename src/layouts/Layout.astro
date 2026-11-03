@@ -1,0 +1,106 @@
+---
+import CartIsland from '../components/CartIsland';
+import ArchitectureModal from '../components/ArchitectureModal.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Hệ thống demo kiến trúc JAMstack - Môn Kiến Trúc Phần Mềm' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="vi" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | JAMstack Architecture Demo</title>
+    <meta name="description" content={description} />
+  </head>
+  <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+    <!-- Architectural Top Bar (Rất hữu ích khi thuyết trình) -->
+    <header class="bg-slate-950 text-slate-300 text-xs py-2 border-b border-slate-800">
+      <div class="w-full px-4 sm:px-8 lg:px-12 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-mono">
+            JAMstack Midterm
+          </span>
+          <span class="text-slate-400 hidden sm:inline">Pre-rendered Markup • Client Islands • Edge Serverless API</span>
+        </div>
+        <div class="flex items-center gap-4 text-[11px]">
+          <span class="text-slate-400">CDN Status: <strong class="text-emerald-400 font-mono">Edge HIT (PoP)</strong></span>
+          <button
+            id="open-arch-modal"
+            class="text-emerald-400 hover:text-emerald-300 font-semibold underline underline-offset-2 flex items-center gap-1 cursor-pointer"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Xem Sơ đồ Kiến trúc (Inspect)
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Navigation Bar -->
+    <nav class="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+      <div class="w-full px-4 sm:px-8 lg:px-12 h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-black font-mono shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+            J
+          </div>
+          <div>
+            <span class="font-extrabold text-slate-900 tracking-tight text-lg group-hover:text-emerald-600 transition-colors">
+              TechStore<span class="text-emerald-600">.jam</span>
+            </span>
+            <span class="block text-[10px] text-slate-400 font-mono -mt-1">Static E-Commerce Storefront</span>
+          </div>
+        </a>
+
+        <div class="flex items-center gap-6">
+          <a href="/" class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">
+            Cửa hàng
+          </a>
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hidden sm:flex items-center gap-1.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-medium transition-colors border border-slate-200"
+          >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+            </svg>
+            <span>GitOps Source</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Page Content -->
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 mt-16 text-xs">
+      <div class="w-full px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center gap-2 text-white font-bold text-sm">
+          <span class="w-6 h-6 rounded-md bg-emerald-600 flex items-center justify-center font-mono text-xs">J</span>
+          TechStore.jam
+        </div>
+        <p class="text-slate-500 text-[11px]">
+          Demo Kiến Trúc Phần Mềm (JAMstack Storefront)
+        </p>
+      </div>
+    </footer>
+
+    <!-- Client-side Interactive Island (Cart) -->
+    <CartIsland client:load />
+
+    <!-- Architecture Modal -->
+    <ArchitectureModal />
+  </body>
+</html>

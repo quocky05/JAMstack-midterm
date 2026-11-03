@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "orderId": "JAM-773912",
+  "itemsCount": 1,
+  "totalAmount": 99,
+  "executionTimeMs": 24,
+  "edgeRegion": "Local Edge Simulation",
+  "message": "Đơn hàng đã được ghi nhận qua Serverless Mock API!",
+  "timestamp": "2026-11-03T10:00:00.000Z"
+}

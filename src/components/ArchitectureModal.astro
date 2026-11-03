@@ -1,0 +1,124 @@
+---
+// Architecture Inspector Modal for Classroom Presentation
+---
+
+<div id="arch-modal-container" class="hidden fixed inset-0 z-50 overflow-y-auto">
+  <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity" id="arch-modal-backdrop"></div>
+
+  <div class="relative min-h-screen flex items-center justify-center p-4">
+    <div class="relative bg-slate-900 border border-slate-800 rounded-3xl max-w-3xl w-full p-6 sm:p-8 text-white shadow-2xl">
+      <!-- Close Button -->
+      <button id="close-arch-modal" class="absolute top-6 right-6 p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Modal Header -->
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-xl font-mono border border-emerald-500/40">
+          JAM
+        </div>
+        <div>
+          <h2 class="text-xl font-black tracking-tight text-white">Kiến Trúc Phần Mềm: JAMstack Storefront</h2>
+          <p class="text-xs text-slate-400">Software Architecture Breakdown (3 Trụ cột J - A - M & Vòng đời hệ thống)</p>
+        </div>
+      </div>
+
+      <!-- 3 Pillars Breakdown -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <!-- J -->
+        <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl font-black text-emerald-400">J</span>
+            <span class="text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded font-mono border border-emerald-800">
+              Islands Client
+            </span>
+          </div>
+          <h4 class="font-bold text-sm text-white mb-1">JavaScript</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Áp dụng <strong>Islands Architecture</strong>. Danh sách sản phẩm 100% Zero-JS HTML. Chỉ component Giỏ hàng & Nút Mua mới hydrate JavaScript khi cần.
+          </p>
+        </div>
+
+        <!-- A -->
+        <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl font-black text-cyan-400">A</span>
+            <span class="text-[10px] bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded font-mono border border-cyan-800">
+              Serverless API
+            </span>
+          </div>
+          <h4 class="font-bold text-sm text-white mb-1">APIs</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Xử lý logic nghiệp vụ qua <strong>Serverless Function</strong> (`POST /api/checkout`). Không cần web server riêng 24/7, scale theo request và độc lập hoàn toàn.
+          </p>
+        </div>
+
+        <!-- M -->
+        <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl font-black text-amber-400">M</span>
+            <span class="text-[10px] bg-amber-950 text-amber-300 px-2 py-0.5 rounded font-mono border border-amber-800">
+              Build-time SSG
+            </span>
+          </div>
+          <h4 class="font-bold text-sm text-white mb-1">Markup</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Dữ liệu Markdown trong Git được <strong>Pre-render tại Build-time</strong> thành các file HTML tĩnh, phân phối toàn cầu qua <strong>CDN Edge</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Lifecycle Diagram & Quality Attributes -->
+      <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-3 font-mono text-xs">
+        <div class="text-slate-400 font-bold uppercase tracking-wider text-[11px] flex items-center justify-between">
+          <span>Vòng đời Luồng Dữ liệu (Lifecycle Flow):</span>
+          <span class="text-emerald-400 font-normal">GitOps + Atomic Deploy</span>
+        </div>
+        <div class="text-slate-300 space-y-1.5 border-l-2 border-emerald-500/50 pl-3">
+          <div><strong class="text-emerald-400">1. Build-Time:</strong> Git Push ➔ CI/CD Astro Compiler đọc Markdown ➔ Xuất HTML tĩnh</div>
+          <div><strong class="text-cyan-400">2. Deploy-Time:</strong> Đẩy artifacts lên CDN Edge ➔ Cache Invalidation nguyên tử (Zero Downtime)</div>
+          <div><strong class="text-amber-400">3. Run-Time:</strong> Trình duyệt tải HTML từ CDN (Cache HIT) ➔ Cart Island gọi Serverless API</div>
+        </div>
+      </div>
+
+      <!-- Footer Info -->
+      <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+        <span>Môn học: Kiến Trúc Phần Mềm (Software Architecture)</span>
+        <button id="close-arch-btn-secondary" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-medium transition-colors">
+          Đóng cửa sổ
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupArchModal() {
+    const trigger = document.getElementById('open-arch-modal');
+    const modal = document.getElementById('arch-modal-container');
+    const backdrop = document.getElementById('arch-modal-backdrop');
+    const closeBtn = document.getElementById('close-arch-modal');
+    const closeBtnSec = document.getElementById('close-arch-btn-secondary');
+
+    if (!trigger || !modal) return;
+
+    const open = () => modal.classList.remove('hidden');
+    const close = () => modal.classList.add('hidden');
+
+    trigger.addEventListener('click', open);
+    backdrop?.addEventListener('click', close);
+    closeBtn?.addEventListener('click', close);
+    closeBtnSec?.addEventListener('click', close);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        close();
+      }
+    });
+  }
+
+  setupArchModal();
+  document.addEventListener('astro:after-swap', setupArchModal);
+</script>

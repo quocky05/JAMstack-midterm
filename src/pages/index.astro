@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+const allProducts = await getCollection('products');
+// Đưa sản phẩm demo mục tiêu (headphone-anc) lên đầu danh sách để dễ demo
+allProducts.sort((a, b) => (a.slug === 'headphone-anc' ? -1 : 1));
+---
+
+<Layout title="Trang chủ Cửa hàng JAMstack">
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 text-white pt-12 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <!-- Hiệu ứng lưới background tinh tế -->
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#22c55e_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+    <div class="relative w-full px-4 sm:px-8 lg:px-12">
+      <div class="max-w-4xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono font-medium mb-4">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          Midterm Software Architecture Project
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
+          Kiến Trúc <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">JAMstack</span> Cho Ứng Dụng E-Commerce
+        </h1>
+
+        <p class="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl">
+          Pre-render HTML tại <strong>Build-time</strong>, phân phối tức thời qua <strong>Edge CDN</strong>, kết hợp <strong>Client Islands</strong> và <strong>Serverless APIs</strong> cho nghiệp vụ động.
+        </p>
+
+        <!-- Nút hành động nhanh -->
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          <a
+            href="#products"
+            class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold rounded-xl shadow-lg shadow-emerald-500/20 transition-all text-sm flex items-center gap-2"
+          >
+            <span>Xem Danh mục Sản phẩm</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Catalog Grid -->
+  <section id="products" class="w-full px-4 sm:px-8 lg:px-12 -mt-8 relative z-20 pb-12">
+    <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-200/80">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-100">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-2xl font-black text-slate-900 tracking-tight">Sản Phẩm Công Nghệ</h2>
+            <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full font-mono font-semibold">
+              {allProducts.length} items
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">
+            Thiết bị và phụ kiện công nghệ chọn lọc.
+          </p>
+        </div>
+      </div>
+
+      <!-- Danh sách sản phẩm -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {allProducts.map((product) => (
+          <ProductCard product={product} />
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
